@@ -3,9 +3,7 @@ name: "test"
 on:
   pull_request:
     branches:
-      - "1.17.1"
       - "main"
-      - "master"
   workflow_dispatch:
 
 jobs:
