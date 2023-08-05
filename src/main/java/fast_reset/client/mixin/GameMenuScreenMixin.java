@@ -11,14 +11,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameMenuScreen.class)
-public class GameMenuScreenMixin extends Screen {
-
+public abstract class GameMenuScreenMixin extends Screen {
     protected GameMenuScreenMixin(Text title) {
         super(title);
     }
 
-    @ModifyVariable(method = "initWidgets", at = @At(value = "STORE", ordinal = 1))
+    @SuppressWarnings("InvalidInjectorMethodSignature")
+    @ModifyVariable(method = "initWidgets", at = @At(value = "STORE"), ordinal = 1)
     private ButtonWidget createExitButton(ButtonWidget saveButton) {
+        assert this.client != null;
         if (!this.client.isInSingleplayer()) {
             return saveButton;
         }
@@ -53,7 +54,7 @@ public class GameMenuScreenMixin extends Screen {
                 break;
         }
 
-        this.addButton(new ButtonWidget(x, y, width, height, new TranslatableText("menu.quitWorld"), (buttonWidgetX) -> {
+        this.addButton(new ButtonWidget(x, y, width, height, new TranslatableText("menu.quitWorld"), (button) -> {
             FastReset.saveOnQuit = false;
             saveButton.onPress();
             FastReset.saveOnQuit = true;

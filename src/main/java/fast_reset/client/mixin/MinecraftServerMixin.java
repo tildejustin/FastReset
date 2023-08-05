@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Iterator;
 
 @Mixin(MinecraftServer.class)
-public class MinecraftServerMixin {
+public abstract class MinecraftServerMixin {
     // kill save on the shutdown
     @ModifyConstant(method = "shutdown", constant = @Constant(intValue = 0, ordinal = 0))
     private int disableWorldSaving(int savingDisabled) {

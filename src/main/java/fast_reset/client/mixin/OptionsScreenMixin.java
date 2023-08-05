@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(OptionsScreen.class)
-public class OptionsScreenMixin extends Screen {
+public abstract class OptionsScreenMixin extends Screen {
     protected OptionsScreenMixin(Text title) {
         super(title);
     }

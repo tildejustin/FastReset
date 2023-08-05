@@ -23,7 +23,7 @@ public class FastReset implements ClientModInitializer {
 
     public static void updateButtonLocation() {
         buttonLocation = (buttonLocation + 1) % 3;
-        save();
+        FastReset.save();
     }
 
     private static void save() {
@@ -46,7 +46,7 @@ public class FastReset implements ClientModInitializer {
                 if (!configurationFile.createNewFile()) {
                     throw new IOException("couldn't make config file");
                 }
-                save();
+                FastReset.save();
             } catch (IOException e) {
                 LOGGER.error("Failed to create FastReset config", e);
             }

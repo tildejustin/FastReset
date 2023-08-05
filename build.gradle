@@ -1,5 +1,6 @@
 plugins {
     id "fabric-loom" version "1.3-SNAPSHOT"
+    id 'io.github.juuxel.loom-vineflower' version '1.11.0'
     id "org.ajoberstar.grgit" version "5.2.0"
 }
 
@@ -45,8 +46,12 @@ jar {
     }
 }
 
+vineflower {
+    toolVersion = "1.9.2"
+}
 
-@SuppressWarnings('GrMethodMayBeStatic')
+
+@SuppressWarnings(['GrMethodMayBeStatic', 'GrUnresolvedAccess'])
 def getVersionMetadata() {
     // CI build version numbers
     def build_id = System.getenv("RELEASE_TAG")
