@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ServerChunkManager.class)
 public class ServerChunkManagerMixin {
-
     @Redirect(method = "close", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerChunkManager;save(Z)V"))
     private void closeRedirect(ServerChunkManager serverChunkManager, boolean flush) {
         if (FastReset.saveOnQuit) {

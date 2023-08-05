@@ -4,10 +4,10 @@
   "package": "fast_reset.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "GameMenuMixin",
+    "GameMenuScreenMixin",
     "MinecraftClientMixin",
+    "MinecraftServerMixin",
     "OptionsScreenMixin",
-    "ResetMixin",
     "ServerChunkManagerMixin"
   ],
   "injectors": {

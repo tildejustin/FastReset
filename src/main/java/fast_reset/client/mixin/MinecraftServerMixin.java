@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Iterator;
 
 @Mixin(MinecraftServer.class)
-public class ResetMixin {
+public class MinecraftServerMixin {
     // kill save on the shutdown
     @ModifyConstant(method = "shutdown", constant = @Constant(intValue = 0, ordinal = 0))
     private int disableWorldSaving(int savingDisabled) {
@@ -27,10 +27,10 @@ public class ResetMixin {
         }
 
         new Thread(() -> {
-            synchronized(FastReset.saveLock) {
+            synchronized (FastReset.saveLock) {
                 FastReset.saving.set(true);
 
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     ServerWorld world = iterator.next();
                     if (world != null) {
                         try {

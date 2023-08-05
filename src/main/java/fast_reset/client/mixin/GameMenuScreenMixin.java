@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameMenuScreen.class)
-public class GameMenuMixin extends Screen {
+public class GameMenuScreenMixin extends Screen {
 
-    protected GameMenuMixin(Text title) {
+    protected GameMenuScreenMixin(Text title) {
         super(title);
     }
 
@@ -27,7 +27,7 @@ public class GameMenuMixin extends Screen {
         int width;
         int x;
         int y;
-        switch (FastReset.buttonLocation){
+        switch (FastReset.buttonLocation) {
             // bottom right build
             case 0:
                 width = 102;

@@ -15,12 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class FastReset implements ClientModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    private static final File configurationFile = FabricLoader.getInstance().getConfigDir().resolve("fastReset").resolve("settings.txt").toFile();
-
-    public static boolean saveOnQuit = true;
     public static final AtomicBoolean saving = new AtomicBoolean();
     public static final Object saveLock = new Object();
-
+    private static final File configurationFile = FabricLoader.getInstance().getConfigDir().resolve("fastReset").resolve("settings.txt").toFile();
+    public static boolean saveOnQuit = true;
     public static int buttonLocation = 0;
 
     public static void updateButtonLocation() {
