@@ -3,7 +3,6 @@ package fast_reset.client.mixin;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import fast_reset.client.FastReset;
 import fast_reset.client.interfaces.FRMinecraftServer;
 import fast_reset.client.interfaces.FastCloseable;
 import net.minecraft.server.MinecraftServer;

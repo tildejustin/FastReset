@@ -43,7 +43,7 @@ public abstract class StorageIoWorkerMixin implements FastCloseable {
     private volatile boolean fastClosed;
 
     // these errors get thrown because we skip ThreadedAnvilChunkGenerator#completeAll, we just ignore them because we don't want anything to be saved anyway
-    @WrapWithCondition(method = "write", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"))
+    @WrapWithCondition(method = "write", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V", remap = false))
     private boolean suppressErrorsWhenFastClosed(Logger logger, String s, Object a, Object b) {
         return !this.fastClosed;
     }
