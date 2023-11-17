@@ -1,6 +1,7 @@
 package fast_reset.client.mixin;
 
 import fast_reset.client.FastReset;
+import fast_reset.client.interfaces.FRMinecraftServer;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -54,9 +55,10 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
 
         this.addButton(new ButtonWidget(x, y, width, height, menuQuitWorld, button -> {
-            FastReset.saveOnQuit = false;
+            if (this.client != null && this.client.getServer() != null) {
+                ((FRMinecraftServer) this.client.getServer()).fastReset$fastReset();
+            }
             saveButton.onPress();
-            FastReset.saveOnQuit = true;
         }));
         return saveButton;
     }
