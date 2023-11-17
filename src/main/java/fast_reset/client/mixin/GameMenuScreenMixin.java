@@ -39,8 +39,8 @@ public abstract class GameMenuScreenMixin extends Screen {
                 break;
             case CENTER:
                 width = saveButton.getWidth();
-                x = this.width / 2 - width / 2;
-                y = this.height / 4 + 148 - height;
+                x = saveButton.x;
+                y = saveButton.y + 24;
                 break;
             case REPLACE_SQ:
             default:
@@ -51,7 +51,6 @@ public abstract class GameMenuScreenMixin extends Screen {
                 saveButton.setWidth(this.textRenderer.getWidth(saveButton.getMessage()) + 30);
                 saveButton.x = this.width - saveButton.getWidth() - 4;
                 saveButton.y = this.height - saveButton.getHeight() - 4;
-                break;
         }
 
         this.addButton(new ButtonWidget(x, y, width, height, menuQuitWorld, button -> {
@@ -60,6 +59,7 @@ public abstract class GameMenuScreenMixin extends Screen {
             }
             saveButton.onPress();
         }));
+
         return saveButton;
     }
 }
