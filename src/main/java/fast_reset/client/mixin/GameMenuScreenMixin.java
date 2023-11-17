@@ -12,49 +12,48 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
+
     protected GameMenuScreenMixin(Text title) {
         super(title);
     }
 
     @SuppressWarnings("InvalidInjectorMethodSignature")
-    @ModifyVariable(method = "initWidgets", at = @At(value = "STORE"), ordinal = 1)
-    private ButtonWidget createExitButton(ButtonWidget saveButton) {
+    @ModifyVariable(method = "initWidgets", at = @At("STORE"), ordinal = 1)
+    private ButtonWidget createFastResetButton(ButtonWidget saveButton) {
         assert this.client != null;
         if (!this.client.isInSingleplayer()) {
             return saveButton;
         }
 
+        Text menuQuitWorld = new TranslatableText("fast_reset.menu.quitWorld");
         int height = 20;
         int width;
         int x;
         int y;
-        switch (FastReset.buttonLocation) {
-            // bottom right build
-            case 0:
-                width = 102;
+        switch (FastReset.config.buttonLocation) {
+            case BOTTOM_RIGHT:
+                width = this.textRenderer.getWidth(menuQuitWorld) + 30;
                 x = this.width - width - 4;
                 y = this.height - height - 4;
                 break;
-            // center build
-            case 1:
-                width = 204;
+            case CENTER:
+                width = saveButton.getWidth();
                 x = this.width / 2 - width / 2;
                 y = this.height / 4 + 148 - height;
                 break;
-            // replace s&q build
-            case 2:
+            case REPLACE_SQ:
             default:
-                width = 204;
-                x = this.width / 2 - width / 2;
-                y = this.height / 4 + 124 - height;
+                width = saveButton.getWidth();
+                x = saveButton.x;
+                y = saveButton.y;
 
-                saveButton.x = (int) (this.width - (102 * 1.5) - 4);
-                saveButton.y = this.height - 24;
-                saveButton.setWidth((int) (102 * 1.5));
+                saveButton.setWidth(this.textRenderer.getWidth(saveButton.getMessage()) + 30);
+                saveButton.x = this.width - saveButton.getWidth() - 4;
+                saveButton.y = this.height - saveButton.getHeight() - 4;
                 break;
         }
 
-        this.addButton(new ButtonWidget(x, y, width, height, new TranslatableText("menu.quitWorld"), (button) -> {
+        this.addButton(new ButtonWidget(x, y, width, height, menuQuitWorld, button -> {
             FastReset.saveOnQuit = false;
             saveButton.onPress();
             FastReset.saveOnQuit = true;

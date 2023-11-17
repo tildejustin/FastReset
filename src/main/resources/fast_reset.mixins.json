@@ -7,7 +7,6 @@
     "GameMenuScreenMixin",
     "MinecraftClientMixin",
     "MinecraftServerMixin",
-    "OptionsScreenMixin",
     "ServerChunkManagerMixin"
   ],
   "injectors": {

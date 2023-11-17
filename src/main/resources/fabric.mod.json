@@ -3,23 +3,23 @@
   "id": "fast_reset",
   "version": "${version}",
   "name": "FastReset",
-  "description": "",
+  "description": "Skips saving worlds to reset faster.",
   "authors": [
     "closet_witch"
   ],
-  "contact": {},
   "license": "MIT",
   "environment": "client",
-  "entrypoints": {
-    "client": [
-      "fast_reset.client.FastReset"
-    ]
+  "custom": {
+    "speedrunapi": {
+      "config": "fast_reset.client.FastResetConfig"
+    }
   },
   "mixins": [
     "fast_reset.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.12.12",
-    "minecraft": ">=1.16 <=1.16.1"
+    "minecraft": ">=1.16 <=1.16.1",
+    "speedrunapi": "*"
   }
 }

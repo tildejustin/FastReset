@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin {
-    // kill save on the shutdown
+
     @ModifyConstant(method = "shutdown", constant = @Constant(intValue = 0, ordinal = 0))
     private int disableWorldSaving(int savingDisabled) {
         return FastReset.saveOnQuit ? savingDisabled : 1;
