@@ -5,9 +5,14 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "GameMenuScreenMixin",
-    "MinecraftClientMixin",
     "MinecraftServerMixin",
-    "ServerChunkManagerMixin"
+    "fastClosable.RegionBasedStorageMixin",
+    "fastClosable.RegionFileMixin",
+    "fastClosable.SerializingRegionBasedStorageMixin",
+    "fastClosable.ServerChunkManagerMixin",
+    "fastClosable.StorageIoWorkerMixin",
+    "fastClosable.ThreadedAnvilChunkStorageMixin",
+    "fastClosable.VersionedChunkStorageMixin"
   ],
   "injectors": {
     "defaultRequire": 1
