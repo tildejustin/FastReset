@@ -43,6 +43,8 @@ public abstract class MinecraftServerMixin implements FRMinecraftServer {
         }
     }
 
+    // MinecraftServer#loading actually means the complete opposite, more like "finishedLoading"
+    // we check it to skip saving on WorldPreview resets
     @Unique
     private boolean shouldSave() {
         return !this.fastReset && this.loading;
