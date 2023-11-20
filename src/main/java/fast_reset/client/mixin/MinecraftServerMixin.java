@@ -1,5 +1,6 @@
 package fast_reset.client.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -19,10 +20,17 @@ import java.io.IOException;
 public abstract class MinecraftServerMixin implements FRMinecraftServer {
 
     @Shadow
+    private volatile boolean running;
+    @Shadow
     private volatile boolean loading;
 
     @Unique
     private volatile boolean fastReset;
+
+    @ModifyReturnValue(method = "shouldKeepTicking", at = @At("RETURN"))
+    private boolean stopTicking(boolean shouldKeepTicking) {
+        return shouldKeepTicking && !(this.fastReset && !this.running);
+    }
 
     @WrapWithCondition(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;saveAllPlayerData()V"))
     private boolean disablePlayerSaving(PlayerManager playerManager) {
