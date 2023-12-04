@@ -4,7 +4,7 @@ plugins {
     id "org.ajoberstar.grgit" version "5.2.0"
 }
 
-version = "${getVersionMetadata()}+$target_version"
+version = project.mod_version
 group = maven_group
 
 base {
@@ -52,21 +52,4 @@ jar {
 
 vineflower {
     toolVersion = "1.9.2"
-}
-
-
-@SuppressWarnings(["GrMethodMayBeStatic", "GrUnresolvedAccess"])
-def getVersionMetadata() {
-    // CI build version numbers
-    def build_id = System.getenv("RELEASE_TAG")
-    if (build_id != null) return build_id
-
-    // development builds
-    if (grgit == null) return "dev"
-
-    // named development builds
-    def id = grgit.head().getAbbreviatedId()
-    if (!grgit.status().clean) id += "-dirty"
-
-    return "rev.$id"
 }
