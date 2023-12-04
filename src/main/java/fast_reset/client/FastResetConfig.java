@@ -18,6 +18,7 @@ public class FastResetConfig implements SpeedrunConfig {
     public enum ButtonLocation {
         BOTTOM_RIGHT,
         CENTER,
-        REPLACE_SQ
+        REPLACE_SQ,
+        HIDE
     }
 }
