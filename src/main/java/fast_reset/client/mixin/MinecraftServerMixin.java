@@ -29,7 +29,7 @@ public abstract class MinecraftServerMixin implements FRMinecraftServer {
 
     @ModifyReturnValue(method = "shouldKeepTicking", at = @At("RETURN"))
     private boolean stopTicking(boolean shouldKeepTicking) {
-        return shouldKeepTicking && !(this.fastReset && !this.running);
+        return shouldKeepTicking && this.shouldTick();
     }
 
     @WrapWithCondition(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;saveAllPlayerData()V"))
@@ -56,6 +56,11 @@ public abstract class MinecraftServerMixin implements FRMinecraftServer {
     @Unique
     private boolean shouldSave() {
         return !this.fastReset && this.loading;
+    }
+
+    @Unique
+    private boolean shouldTick() {
+        return !(this.fastReset && !this.running && this.loading);
     }
 
     @Override
