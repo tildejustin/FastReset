@@ -20,7 +20,6 @@ public abstract class GameMenuScreenMixin extends Screen {
         super(title);
     }
 
-    @SuppressWarnings("InvalidInjectorMethodSignature")
     @ModifyVariable(method = "initWidgets", at = @At("STORE"), ordinal = 1)
     private ButtonWidget createFastResetButton(ButtonWidget saveButton) {
         assert this.client != null;
