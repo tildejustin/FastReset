@@ -25,7 +25,7 @@ public abstract class StorageIoWorkerMixin implements FastCloseable {
     private static Logger LOGGER;
     @Shadow
     @Final
-    private TaskExecutor<TaskQueue.PrioritizedTask> field_24468;
+    private TaskExecutor<TaskQueue.PrioritizedTask> executor;
     @Shadow
     @Final
     private RegionBasedStorage storage;
@@ -53,7 +53,7 @@ public abstract class StorageIoWorkerMixin implements FastCloseable {
             return;
         }
 
-        this.field_24468.close();
+        this.executor.close();
         this.results.clear();
         try {
             //noinspection DataFlowIssue - IntelliJ doesn't understand Mixin
