@@ -2,22 +2,22 @@ package fast_reset.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import fast_reset.client.FastReset;
 import fast_reset.client.interfaces.FRMinecraftServer;
-import fast_reset.client.interfaces.FastCloseable;
+import fast_reset.client.interfaces.FRThreadExecutor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.ServerTask;
+import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-
-import java.io.IOException;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
-public abstract class MinecraftServerMixin implements FRMinecraftServer {
+public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<ServerTask> implements FRMinecraftServer {
 
     @Shadow
     private volatile boolean running;
@@ -27,9 +27,20 @@ public abstract class MinecraftServerMixin implements FRMinecraftServer {
     @Unique
     private volatile boolean fastReset;
 
+    public MinecraftServerMixin(String string) {
+        super(string);
+    }
+
     @ModifyReturnValue(method = "shouldKeepTicking", at = @At("RETURN"))
     private boolean stopTicking(boolean shouldKeepTicking) {
         return shouldKeepTicking && this.shouldTick();
+    }
+
+    @Inject(method = "shutdown", at = @At("HEAD"))
+    private void enableFastClose(CallbackInfo ci) {
+        if (!this.shouldSave()) {
+            FastReset.enableFastClose();
+        }
     }
 
     @WrapWithCondition(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;saveAllPlayerData()V"))
@@ -42,12 +53,10 @@ public abstract class MinecraftServerMixin implements FRMinecraftServer {
         return this.shouldSave();
     }
 
-    @WrapOperation(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;close()V"))
-    private void fastClose(ServerWorld serverWorld, Operation<Void> original) throws IOException {
+    @Inject(method = "shutdown", at = @At("TAIL"))
+    private void cancelRemainingTasks(CallbackInfo ci) {
         if (!this.shouldSave()) {
-            ((FastCloseable) serverWorld.getChunkManager()).fast_reset$fastClose();
-        } else {
-            original.call(serverWorld);
+            ((FRThreadExecutor) this).fast_reset$cancelFutures();
         }
     }
 

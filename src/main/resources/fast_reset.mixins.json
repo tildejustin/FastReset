@@ -6,13 +6,13 @@
   "client": [
     "GameMenuScreenMixin",
     "MinecraftServerMixin",
-    "fastClosable.RegionBasedStorageMixin",
-    "fastClosable.RegionFileMixin",
-    "fastClosable.SerializingRegionBasedStorageMixin",
-    "fastClosable.ServerChunkManagerMixin",
-    "fastClosable.StorageIoWorkerMixin",
-    "fastClosable.ThreadedAnvilChunkStorageMixin",
-    "fastClosable.VersionedChunkStorageMixin"
+    "RegionFileMixin",
+    "ServerChunkManagerMixin",
+    "StorageIoWorkerMixin",
+    "completefutures.ServerChunkManagerMixin",
+    "completefutures.TaskExecutorMixin",
+    "completefutures.ThreadedAnvilChunkStorageMixin",
+    "completefutures.ThreadExecutorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
