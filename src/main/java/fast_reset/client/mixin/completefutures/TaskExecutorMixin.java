@@ -74,7 +74,7 @@ public abstract class TaskExecutorMixin<T> implements MessageListener<T> {
     }
 
     @Override
-    public <Source> CompletableFuture<Source> method_27918(Function<? super MessageListener<Either<Source, Exception>>, ? extends T> function) {
-        return this.saveCompletableFutures(MessageListener.super.method_27918(function));
+    public <Source> CompletableFuture<Source> askFallible(Function<? super MessageListener<Either<Source, Exception>>, ? extends T> function) {
+        return this.saveCompletableFutures(MessageListener.super.askFallible(function));
     }
 }
