@@ -5,7 +5,12 @@
   "name": "FastReset",
   "description": "Skips saving worlds to reset faster.",
   "authors": [
-    "closet_witch"
+    {
+      "name": "closet_witch",
+      "contact": {
+        "homepage": "https://github.com/jan-leila/"
+      }
+    }
   ],
   "contributors": [
     "contaria"
