@@ -57,24 +57,29 @@ public abstract class TaskExecutorMixin<T> implements MessageListener<T> {
     }
 
     @Unique
-    private synchronized <Source> CompletableFuture<Source> saveCompletableFutures(CompletableFuture<Source> future) {
+    private synchronized <Source> CompletableFuture<Source> saveFuture(CompletableFuture<Source> future) {
         if (this.shouldRememberFutures && this.futures == null) {
             //FastReset.LOGGER.warn("FastReset | Submitted a future but future set has already been cleared!");
             future.complete(null);
             return future;
         }
         this.futures.add(future);
-        future.whenComplete((r, t) -> this.futures.remove(future));
+        future.whenComplete((r, t) -> this.removeFuture(future));
         return future;
+    }
+
+    @Unique
+    private synchronized void removeFuture(CompletableFuture<?> future) {
+        this.futures.remove(future);
     }
 
     @Override
     public <Source> CompletableFuture<Source> ask(Function<? super MessageListener<Source>, ? extends T> messageProvider) {
-        return this.saveCompletableFutures(MessageListener.super.ask(messageProvider));
+        return this.saveFuture(MessageListener.super.ask(messageProvider));
     }
 
     @Override
     public <Source> CompletableFuture<Source> askFallible(Function<? super MessageListener<Either<Source, Exception>>, ? extends T> function) {
-        return this.saveCompletableFutures(MessageListener.super.askFallible(function));
+        return this.saveFuture(MessageListener.super.askFallible(function));
     }
 }
