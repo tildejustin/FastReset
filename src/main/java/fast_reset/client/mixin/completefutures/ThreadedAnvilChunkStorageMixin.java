@@ -1,7 +1,7 @@
 package fast_reset.client.mixin.completefutures;
 
+import fast_reset.client.completefutures.AsyncSupply;
 import net.minecraft.server.world.ThreadedAnvilChunkStorage;
-import net.minecraft.util.thread.ThreadExecutor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -21,6 +21,6 @@ public abstract class ThreadedAnvilChunkStorageMixin {
             )
     )
     private <T> CompletableFuture<T> redirectCompletableFuture(Supplier<T> supplier, Executor executor) {
-        return ((ThreadExecutor<?>) executor).submit(supplier);
+        return AsyncSupply.supplyAsync(supplier, executor);
     }
 }
