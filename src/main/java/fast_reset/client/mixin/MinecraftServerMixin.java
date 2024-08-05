@@ -38,33 +38,26 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
 
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void enableFastClose(CallbackInfo ci) {
-        if (!this.shouldSave()) {
+        if (!this.fastReset$shouldSave()) {
             FastReset.enableFastClose();
         }
     }
 
     @WrapWithCondition(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;saveAllPlayerData()V"))
     private boolean disablePlayerSaving(PlayerManager playerManager) {
-        return this.shouldSave();
+        return this.fastReset$shouldSave();
     }
 
     @WrapWithCondition(method = "shutdown", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;save(ZZZ)Z"))
     private boolean disableSaving(MinecraftServer server, boolean bl, boolean bl2, boolean bl3) {
-        return this.shouldSave();
+        return this.fastReset$shouldSave();
     }
 
     @Inject(method = "shutdown", at = @At("TAIL"))
     private void cancelRemainingTasks(CallbackInfo ci) {
-        if (!this.shouldSave()) {
+        if (!this.fastReset$shouldSave()) {
             ((FRThreadExecutor) this).fast_reset$cancelFutures();
         }
-    }
-
-    // MinecraftServer#loading actually means the complete opposite, more like "finishedLoading"
-    // we check it to skip saving on WorldPreview resets
-    @Unique
-    private boolean shouldSave() {
-        return !this.fastReset && this.loading;
     }
 
     @Unique
@@ -75,5 +68,12 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     @Override
     public void fastReset$fastReset() {
         this.fastReset = true;
+    }
+
+    // MinecraftServer#loading actually means the complete opposite, more like "finishedLoading"
+    // we check it to skip saving on WorldPreview resets
+    @Override
+    public boolean fastReset$shouldSave() {
+        return !this.fastReset && this.loading;
     }
 }
