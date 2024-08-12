@@ -56,7 +56,7 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
 
         AbstractButtonWidget fastResetButton = this.addButton(new ButtonWidget(x, y, width, height, menuQuitWorld, button -> {
-            if (this.client != null && this.client.getServer() != null && this.shouldFastReset()) {
+            if (this.client != null && this.client.getServer() != null) {
                 ((FRMinecraftServer) this.client.getServer()).fastReset$fastReset();
             }
             saveButton.onPress();
