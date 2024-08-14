@@ -69,6 +69,6 @@ public abstract class GameMenuScreenMixin extends Screen {
 
     @Unique
     private boolean shouldFastReset() {
-        return FastReset.config.alwaysSaveAfter > 0 && this.client.getServer() != null && this.client.getServer().getTicks() <= FastReset.config.alwaysSaveAfter * 20;
+        return FastReset.config.alwaysSaveAfter == 0 || (this.client.getServer() != null && this.client.getServer().getTicks() <= FastReset.config.alwaysSaveAfter * 20);
     }
 }
