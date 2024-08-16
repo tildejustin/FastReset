@@ -1,4 +1,4 @@
-package fast_reset.client.widget;
+package fast_reset.client.gui;
 
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.MutableText;

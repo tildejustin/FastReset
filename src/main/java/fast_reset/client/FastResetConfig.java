@@ -1,6 +1,6 @@
 package fast_reset.client;
 
-import fast_reset.client.widget.TimeSliderWidget;
+import fast_reset.client.gui.TimeSliderWidget;
 import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.Nullable;
 import org.mcsr.speedrunapi.config.SpeedrunConfigAPI;
@@ -13,7 +13,7 @@ public class FastResetConfig implements SpeedrunConfig {
 
     public ButtonLocation buttonLocation = ButtonLocation.BOTTOM_RIGHT;
 
-    public int alwaysSaveAfter = 60 * 2 + 30;
+    public int alwaysSaveAfter = 0;
 
     {
         FastReset.config = this;
