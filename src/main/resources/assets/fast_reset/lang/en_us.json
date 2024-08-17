@@ -8,5 +8,12 @@
   "speedrunapi.config.fast_reset.option.buttonLocation.value.REPLACE_SQ": "Replace Save & Quit",
   "speedrunapi.config.fast_reset.option.buttonLocation.value.HIDE": "Hidden",
 
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter": "Always Save After",
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter.description": "After the configured time, the menu.quitWorld button will disappear and worlds will save normally.",
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter.seconds": "%s seconds",
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter.minutes": "%s minutes",
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter.hours": "%s hours",
+  "speedrunapi.config.fast_reset.option.alwaysSaveAfter.unknown": "Never",
+
   "speedrunapi.config.fast_reset.option.test": "Complete Futures"
 }

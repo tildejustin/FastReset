@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
@@ -23,7 +24,7 @@ public abstract class GameMenuScreenMixin extends Screen {
     @ModifyVariable(method = "initWidgets", at = @At("STORE"), ordinal = 1)
     private ButtonWidget createFastResetButton(ButtonWidget saveButton) {
         assert this.client != null;
-        if (!this.client.isInSingleplayer()) {
+        if (!this.client.isInSingleplayer() || !this.shouldFastReset()) {
             return saveButton;
         }
 
@@ -64,5 +65,13 @@ public abstract class GameMenuScreenMixin extends Screen {
         fastResetButton.visible = FastReset.config.buttonLocation != FastResetConfig.ButtonLocation.HIDE;
 
         return saveButton;
+    }
+
+    @Unique
+    private boolean shouldFastReset() {
+        if (FastReset.config.alwaysSaveAfter == 0) {
+            return true;
+        }
+        return this.client.getServer() != null && this.client.getServer().getTicks() <= FastReset.config.alwaysSaveAfter * 20;
     }
 }
