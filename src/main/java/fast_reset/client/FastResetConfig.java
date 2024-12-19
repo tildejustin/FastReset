@@ -1,7 +1,6 @@
 package fast_reset.client;
 
 import fast_reset.client.gui.TimeSliderWidget;
-import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.Nullable;
 import org.mcsr.speedrunapi.config.SpeedrunConfigAPI;
 import org.mcsr.speedrunapi.config.api.SpeedrunConfig;
@@ -35,7 +34,7 @@ public class FastResetConfig implements SpeedrunConfig {
     public @Nullable SpeedrunOption<?> parseField(Field field, SpeedrunConfig config, String... idPrefix) {
         if ("alwaysSaveAfter".equals(field.getName())) {
             return new SpeedrunConfigAPI.CustomOption.Builder<Integer>(this, this, field, idPrefix)
-                    .createWidget((option, innerConfig, configStorage, optionField) -> new TimeSliderWidget(0, 0, 150, 20, LiteralText.EMPTY, option))
+                    .createWidget((option, innerConfig, configStorage, optionField) -> new TimeSliderWidget(0, 0, 150, 20, "", option))
                     .build();
         }
         return SpeedrunConfig.super.parseField(field, config, idPrefix);

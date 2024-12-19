@@ -1,9 +1,7 @@
 package fast_reset.client.gui;
 
 import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.resource.language.I18n;
 import org.mcsr.speedrunapi.config.api.SpeedrunOption;
 
 import java.util.LinkedHashMap;
@@ -11,7 +9,7 @@ import java.util.LinkedHashMap;
 public class TimeSliderWidget extends SliderWidget {
     private final SpeedrunOption<Integer> option;
 
-    public TimeSliderWidget(int x, int y, int width, int height, Text text, SpeedrunOption<Integer> option) {
+    public TimeSliderWidget(int x, int y, int width, int height, String text, SpeedrunOption<Integer> option) {
         super(x, y, width, height, text, (double) option.get() / (5 * 60));
         this.option = option;
         this.updateMessage();
@@ -30,8 +28,8 @@ public class TimeSliderWidget extends SliderWidget {
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() > 0)
-                .map(entry -> (MutableText) new TranslatableText(baseKey + "." + entry.getKey(), entry.getValue()))
-                .reduce((text, text2) -> text.append(" ").append(text2)).orElse(new TranslatableText(baseKey + ".unknown"))
+                .map(entry -> I18n.translate(baseKey + "." + entry.getKey(), entry.getValue()))
+                .reduce((text, text2) -> text + " " + text2).orElse(I18n.translate(baseKey + ".unknown"))
         );
     }
 
