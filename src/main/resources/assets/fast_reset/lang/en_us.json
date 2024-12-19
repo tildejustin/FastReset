@@ -1,5 +1,5 @@
 {
-  "fast_reset.menu.quitWorld": "menu.quitWorld",
+  "fast_reset.menu.quitWorld": "Quit to Title",
 
   "speedrunapi.config.fast_reset.option.buttonLocation": "Button Location",
   "speedrunapi.config.fast_reset.option.buttonLocation.description": "Sets the location of the menu.quitWorld button on the pause menu.",
